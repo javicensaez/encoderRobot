@@ -123,11 +123,24 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim6);
 	setCanFilter();
-	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
-	HAL_TIMEx_PWMN_Start(&htim17, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3); //IN1
+	HAL_TIMEx_PWMN_Start(&htim17, TIM_CHANNEL_1);//IN2
+	HAL_TIMEx_PWMN_Start(&htim16, TIM_CHANNEL_1);//IN3
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4); //IN4
+	HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_3);//IN5
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); //IN6
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2); //IN7
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); //IN8
 
-	__HAL_TIM_SET_COMPARE(&htim17, TIM_CHANNEL_1, 0);
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0); //IN1
+	__HAL_TIM_SET_COMPARE(&htim17, TIM_CHANNEL_1, 00); //IN2
+	__HAL_TIM_SET_COMPARE(&htim16, TIM_CHANNEL_1, 0); //IN3
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, 0); //IN4
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 0); //IN5
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0); //IN6
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 0); //IN7
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0); //IN8
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -399,6 +412,10 @@ static void MX_TIM3_Init(void)
   sConfigOC.Pulse = 0;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
   if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
@@ -475,9 +492,9 @@ static void MX_TIM16_Init(void)
 
   /* USER CODE END TIM16_Init 1 */
   htim16.Instance = TIM16;
-  htim16.Init.Prescaler = 0;
+  htim16.Init.Prescaler = 35;
   htim16.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim16.Init.Period = 65535;
+  htim16.Init.Period = 99;
   htim16.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim16.Init.RepetitionCounter = 0;
   htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
