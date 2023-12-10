@@ -55,6 +55,8 @@ UART_HandleTypeDef huart2;
 int16_t cont1 = 0;
 int16_t cont2 = 0;
 int16_t cont3 = 0;
+float cont3media=0;
+float cont3temp=0;
 int16_t cont4 = 0;
 uint8_t RxData[8];
 uint8_t TxData[8];
@@ -139,7 +141,7 @@ int main(void)
 	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 0); //IN5
 	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0); //IN6
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 0); //IN7
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0); //IN8
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 000); //IN8
 
   /* USER CODE END 2 */
 
@@ -453,7 +455,7 @@ static void MX_TIM6_Init(void)
 
   /* USER CODE END TIM6_Init 1 */
   htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 99;
+  htim6.Init.Prescaler = 199;
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim6.Init.Period = 35999;
   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -691,9 +693,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	// Check which version of the timer triggered this callback and toggle LED
 	if (htim == &htim6) {
 		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
+		cont3media=0.1*cont3temp+0.9*cont3media;
+		cont3temp=0;
+		float rpm=cont3media/90*5*60;
 		char buffer[16];
 		HAL_UART_Transmit(&huart2, (uint8_t*) buffer,
-				sprintf(buffer, "%d\n", cont3), 500);
+				sprintf(buffer, "%f\n", rpm), 500);
 		TxHeader.ExtId = 0x0CF11E05; //ID extendida 1
 				TxHeader.RTR = CAN_RTR_DATA;
 				TxHeader.IDE = CAN_ID_EXT;
@@ -733,8 +738,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == ENC3A_Pin) {
 		if (HAL_GPIO_ReadPin(ENC3B_GPIO_Port, ENC3B_Pin)) {
 			cont3++;
+			cont3temp++;
 		} else {
 			cont3--;
+			cont3temp--;
 		}
 	}
 	if (GPIO_Pin == ENC4A_Pin) {
