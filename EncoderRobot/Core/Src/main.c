@@ -126,10 +126,10 @@ int main(void) {
 	setCanFilter();
 	initMotores();
 
-	 motorIzqDel(50);
-	 motorIzqTras(50);
-	 motorDchDel(50);
-	 motorDchTras(50);
+	 motorIzqDel(0);
+	 motorIzqTras(0);
+	 motorDchDel(00);
+	 motorDchTras(0);
 
 	/* USER CODE END 2 */
 
