@@ -15,11 +15,23 @@
 #include "stm32f3xx_hal.h"
 #include "main.h"
 
-extern int16_t cont1;
-extern int16_t cont2;
-extern int16_t cont3;
-extern float cont3media;
-extern float cont3temp;
-extern int16_t cont4;
+extern int16_t contIzqTras;
+extern float contIzqTrasMedia;
+extern float contIzqTrasTemp;
+extern int16_t contIzqDel;
+extern float contIzqDelMedia;
+extern float contIzqDelTemp;
+extern int16_t contDchDel;
+extern float contDchDelMedia;
+extern float contDchDelTemp;
+extern int16_t contDchTras;
+extern float contDchTrasMedia;
+extern float contDchTrasTemp;
+
+extern float rpmIzqTras;
+extern float rpmIzqDel;
+extern float rpmDchDel;
+extern float rpmDchTras;
 
 void contar();
+void calculaRPM();

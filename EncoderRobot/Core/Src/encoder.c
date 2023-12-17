@@ -22,35 +22,41 @@ void contar() {
 
 	if ((vENC1A == 1) && (vENC1AP == 0)) {
 		if (vENC1B) {
-			cont1++;
+			contIzqTras++;
+			contIzqTrasTemp++;
 		} else {
-			cont1--;
+			contIzqTras--;
+			contIzqTrasTemp--;
 		}
 	}
 
 	if ((vENC2A == 1) && (vENC2AP == 0)) {
 		if (vENC2B) {
-			cont2++;
+			contIzqDel++;
+			contIzqDelTemp++;
 		} else {
-			cont2--;
+			contIzqDel--;
+			contIzqDelTemp--;
 		}
 	}
 
 	if ((vENC3A == 1) && (vENC3AP == 0)) {
-		if (vENC3B) {
-			cont3++;
-			cont3temp++;
+		if (!vENC3B) {
+			contDchDel++;
+			contDchDelTemp++;
 		} else {
-			cont3--;
-			cont3temp--;
+			contDchDel--;
+			contDchDelTemp--;
 		}
 	}
 
 	if ((vENC4A == 1) && (vENC4AP == 0)) {
-		if (vENC4B) {
-			cont4++;
+		if (!vENC4B) {
+			contDchTras++;
+			contDchTrasTemp++;
 		} else {
-			cont4--;
+			contDchTras--;
+			contDchTrasTemp--;
 		}
 	}
 
@@ -61,3 +67,21 @@ void contar() {
 
 }
 
+void calculaRPM() {
+	contIzqTrasMedia = 0.9 * contIzqTrasTemp + 0.1 * contIzqTrasMedia;
+	contIzqTrasTemp = 0;
+	rpmIzqTras = contIzqTrasMedia / 90 * 5 * 60;
+
+	contIzqDelMedia = 0.9 * contIzqDelTemp + 0.1 * contIzqDelMedia;
+	contIzqDelTemp = 0;
+	rpmIzqDel = contIzqDelMedia / 90 * 5 * 60;
+
+	contDchDelMedia = 0.9 * contDchDelTemp + 0.1 * contDchDelMedia;
+	contDchDelTemp = 0;
+	rpmDchDel = contDchDelMedia / 90 * 5 * 60;
+
+	contDchTrasMedia = 0.9 * contDchTrasTemp + 0.1 * contDchTrasMedia;
+	contDchTrasTemp = 0;
+	rpmDchTras = contDchTrasMedia / 90 * 5 * 60;
+
+}

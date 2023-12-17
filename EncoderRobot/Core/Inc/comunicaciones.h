@@ -21,12 +21,10 @@ extern CAN_RxHeaderTypeDef RxHeader;
 extern CAN_TxHeaderTypeDef TxHeader;
 extern uint32_t TxMailbox;
 
-extern int16_t cont1;
-extern int16_t cont2;
-extern int16_t cont3;
-extern float cont3medi;
-extern float cont3tem;
-extern  int16_t cont4;
+extern int16_t contIzqTras;
+extern int16_t contIzqDel;
+extern int16_t contDchDel;
+extern  int16_t contDchTras;
 
 
 void enviarDatosCan();

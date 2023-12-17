@@ -14,14 +14,14 @@ void enviarDatosCan(){
 			TxHeader.DLC = 8;
 			TxHeader.TransmitGlobalTime = DISABLE;
 
-			TxData[0] = (cont1 & 0xFF00) >> 8;
-			TxData[1] = cont1 & 0x00FF;
-			TxData[2] = (cont2 & 0xFF00) >> 8;
-			TxData[3] = cont2 & 0x00FF;
-			TxData[4] = (cont3 & 0xFF00) >> 8;
-			TxData[5] = cont3 & 0x00FF;
-			TxData[6] = (cont4 & 0xFF00) >> 8;
-			TxData[7] = cont4 & 0x00FF;
+			TxData[0] = (contIzqTras & 0xFF00) >> 8;
+			TxData[1] = contIzqTras & 0x00FF;
+			TxData[2] = (contIzqDel & 0xFF00) >> 8;
+			TxData[3] = contIzqDel & 0x00FF;
+			TxData[4] = (contDchDel & 0xFF00) >> 8;
+			TxData[5] = contDchDel & 0x00FF;
+			TxData[6] = (contDchDel & 0xFF00) >> 8;
+			TxData[7] = contDchDel & 0x00FF;
 			if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, TxData, &TxMailbox)
 					!= HAL_OK) {
 				//Error_Handler();
