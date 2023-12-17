@@ -67,17 +67,14 @@ void Error_Handler(void);
 #define VCP_TX_GPIO_Port GPIOA
 #define ENC2A_Pin GPIO_PIN_3
 #define ENC2A_GPIO_Port GPIOA
-#define ENC2A_EXTI_IRQn EXTI3_IRQn
 #define ENC1A_Pin GPIO_PIN_4
 #define ENC1A_GPIO_Port GPIOA
-#define ENC1A_EXTI_IRQn EXTI4_IRQn
 #define ENC1B_Pin GPIO_PIN_5
 #define ENC1B_GPIO_Port GPIOA
 #define ENC4B_Pin GPIO_PIN_6
 #define ENC4B_GPIO_Port GPIOA
 #define ENC4A_Pin GPIO_PIN_7
 #define ENC4A_GPIO_Port GPIOA
-#define ENC4A_EXTI_IRQn EXTI9_5_IRQn
 #define IN1_Pin GPIO_PIN_0
 #define IN1_GPIO_Port GPIOB
 #define IN4_Pin GPIO_PIN_1
@@ -86,7 +83,6 @@ void Error_Handler(void);
 #define IN6_GPIO_Port GPIOA
 #define ENC3A_Pin GPIO_PIN_9
 #define ENC3A_GPIO_Port GPIOA
-#define ENC3A_EXTI_IRQn EXTI9_5_IRQn
 #define ENC3B_Pin GPIO_PIN_10
 #define ENC3B_GPIO_Port GPIOA
 #define SWDIO_Pin GPIO_PIN_13
