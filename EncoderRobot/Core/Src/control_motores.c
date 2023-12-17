@@ -14,6 +14,9 @@ extern TIM_HandleTypeDef htim6;
 extern TIM_HandleTypeDef htim16;
 extern TIM_HandleTypeDef htim17;
 
+struct Motor PIDmotorIzqTras;
+
+
 void motorDchDel (int vel) {
 
 	if (vel > 0) {
@@ -67,4 +70,17 @@ void initMotores() {
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); //IN6
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2); //IN7
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); //IN8
+
+	PIDmotorIzqTras.kp=10;
+	PIDmotorIzqTras.ki=0;
+	PIDmotorIzqTras.kd=0;
+
+}
+
+void calculaPID(){
+
+}
+
+void updateMotor(){
+
 }

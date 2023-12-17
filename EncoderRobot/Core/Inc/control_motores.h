@@ -19,3 +19,12 @@ void motorIzqTras(int vel);
 void motorDchDel(int vel);
 void motorDchTras(int vel);
 void initMotores();
+
+struct Motor {
+  float kp;
+  float ki;
+  float kd;
+  float velDeseada;
+  float velMotor;
+  float velMotorPasada;
+};

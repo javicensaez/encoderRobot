@@ -141,9 +141,9 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim6);
 	setCanFilter();
 	initMotores();
-	motorIzqDel(0);
-	motorIzqTras(0);
-	motorDchDel(0);
+	motorIzqDel(100);
+	motorIzqTras(100);
+	motorDchDel(100);
 	motorDchTras(100);
   /* USER CODE END 2 */
 
@@ -162,7 +162,7 @@ int main(void)
 			//				cont3, cont4), 500);
 
 			HAL_UART_Transmit(&huart2, (uint8_t*) buffer,
-					sprintf(buffer, "c1:%f \n",  rpmDchTras), 500);
+					sprintf(buffer, "c1:%.2f c2:%.2f c3:%.2f c3:%.2f\n",rpmIzqDel,rpmDchDel, rpmIzqTras, rpmDchTras), 500);
 			enviarDatosCan();
 		}
 
