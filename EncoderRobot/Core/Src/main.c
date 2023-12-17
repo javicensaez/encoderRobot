@@ -54,6 +54,7 @@ TIM_HandleTypeDef htim17;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+int bandera = 0;
 int16_t cont1 = 0;
 int16_t cont2 = 0;
 int16_t cont3 = 0;
@@ -128,23 +129,31 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim6);
 	setCanFilter();
 	initMotores();
-
+	motorIzqDel(100);
+	motorIzqTras(100);
+	motorDchDel(100);
+	motorDchTras(100);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
-		HAL_Delay(5000);
-		motorIzqDel(100);
-		motorIzqTras(100);
-		motorDchDel(100);
-		motorDchTras(100);
+		if (bandera == 1) {
+			bandera = 0;
 
-		HAL_Delay(5000);
-		motorIzqDel(0);
-		motorIzqTras(0);
-		motorDchDel(0);
-		motorDchTras(0);
+			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
+			cont3media = 0.9 * cont3temp + 0.1 * cont3media;
+			cont3temp = 0;
+			float rpm = cont3media / 90 * 5 * 60;
+			char buffer[16];
+			//HAL_UART_Transmit(&huart2, (uint8_t*) buffer,
+			//		sprintf(buffer, "c1:%d c2:%d c3:%d c4:%d \n", cont1, cont2,
+			//				cont3, cont4), 500);
+
+			HAL_UART_Transmit(&huart2, (uint8_t*) buffer,
+					sprintf(buffer, "c1:%f\n", rpm), 500);
+			enviarDatosCan();
+		}
 
     /* USER CODE END WHILE */
 
@@ -683,20 +692,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if (htim == &htim6) {
 		contador++;
 		contar();
-		if (contador == 250) {
+		if (contador == 1000) {
 			contador=0;
-			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
-			cont3media = 0.9 * cont3temp + 0.1 * cont3media;
-			cont3temp = 0;
-			float rpm = cont3media / 90 * 10 * 60;
-			char buffer[16];
-			//HAL_UART_Transmit(&huart2, (uint8_t*) buffer,
-			//		sprintf(buffer, "c1:%d c2:%d c3:%d c4:%d \n", cont1, cont2,
-			//				cont3, cont4), 500);
-
-			HAL_UART_Transmit(&huart2, (uint8_t*) buffer,
-					sprintf(buffer, "c1:%f\n", rpm), 500);
-			enviarDatosCan();
+			bandera = 1;
 		}
 	}
 }
