@@ -105,7 +105,15 @@ float pid_controller_run(struct pid_motor *pid, float velMotor) {
 	float error = pid->velDeseada - velMotor;
 	float p = pid->kp * error;
 	pid->sum += error;
+
+
 	float i = pid->ki * pid->delta * pid->sum;
+	if (i>100){
+		pid->sum =100/pid->kd*pid->delta;
+	}
+	if (i<-100){
+		pid->sum =-100/pid->kd*pid->delta;
+	}
 	float d = pid->kd * (error - pid->errorPasado) / pid->delta;
 	pid->errorPasado = error;
 	float valor = p + i + d;
