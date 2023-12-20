@@ -14,10 +14,7 @@ extern TIM_HandleTypeDef htim6;
 extern TIM_HandleTypeDef htim16;
 extern TIM_HandleTypeDef htim17;
 
-
-
-
-void motorDchDel (int vel) {
+void motorDchDel(int vel) {
 
 	if (vel > 0) {
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0); //IN1
@@ -28,7 +25,7 @@ void motorDchDel (int vel) {
 	}
 }
 
-void motorDchTras (int vel) {
+void motorDchTras(int vel) {
 
 	if (vel > 0) {
 		__HAL_TIM_SET_COMPARE(&htim16, TIM_CHANNEL_1, vel); //IN3
@@ -50,7 +47,7 @@ void motorIzqDel(int vel) {
 	}
 }
 
-void motorIzqTras (int vel) {
+void motorIzqTras(int vel) {
 
 	if (vel > 0) {
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 0); //IN7
@@ -71,41 +68,52 @@ void initMotores() {
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2); //IN7
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); //IN8
 
-	pid_controller_init(&PIDmotorIzqTras,0.0002,0.1,2,0.1);
+	pid_controller_init(&PIDmotorIzqTras, 0.0002, 0.1, 2, 0.1);
+	pid_controller_init(&PIDmotorIzqDel, 0.0002, 0.1, 2, 0.1);
+	pid_controller_init(&PIDmotorDchTras, 0.0002, 0.1, 2, 0.1);
+	pid_controller_init(&PIDmotorDchDel, 0.0002, 0.1, 2, 0.1);
 
 }
 
-void calculaPID(){
+void calculaPID() {
 
 }
 
-void updateMotor(){
-	float motor_pwm=pid_controller_run(&PIDmotorIzqTras,  rpmIzqTras);
+void updateMotor() {
+	float motor_pwm = pid_controller_run(&PIDmotorIzqTras, rpmIzqTras);
 	motorIzqTras(motor_pwm);
+	motor_pwm = pid_controller_run(&PIDmotorIzqDel, rpmIzqDel);
+	motorIzqDel(motor_pwm);
+	motor_pwm = pid_controller_run(&PIDmotorDchTras, rpmDchTras);
+	motorDchTras(motor_pwm);
+	motor_pwm = pid_controller_run(&PIDmotorDchDel, rpmDchDel);
+	motorDchDel(motor_pwm);
 
 }
 
-void pid_controller_init(struct pid_motor *pid, float delta, float kp, float ki, float kd) {
-  pid->delta = delta;
-  pid->kp = kp;
-  pid->ki = ki;
-  pid->kd = kd;
-  pid->sum = 0;
-  pid->errorPasado = 0;
+void pid_controller_init(struct pid_motor *pid, float delta, float kp, float ki,
+		float kd) {
+	pid->delta = delta;
+	pid->kp = kp;
+	pid->ki = ki;
+	pid->kd = kd;
+	pid->sum = 0;
+	pid->errorPasado = 0;
 }
 
 float pid_controller_run(struct pid_motor *pid, float velMotor) {
-  float error=pid->velDeseada-velMotor;
-  float p = pid->kp *error ;
-  pid->sum += error;
-  float i = pid->ki * pid->delta * pid->sum;
-  float d = pid->kd * (error - pid->errorPasado) / pid->delta;
-  pid->errorPasado = error;
-  float valor=p + i + d;
-  if (valor>100)
-  {valor=100;}
-  if (valor<-100){
-	  valor=-100;
-  }
-  return valor;
+	float error = pid->velDeseada - velMotor;
+	float p = pid->kp * error;
+	pid->sum += error;
+	float i = pid->ki * pid->delta * pid->sum;
+	float d = pid->kd * (error - pid->errorPasado) / pid->delta;
+	pid->errorPasado = error;
+	float valor = p + i + d;
+	if (valor > 100) {
+		valor = 100;
+	}
+	if (valor < -100) {
+		valor = -100;
+	}
+	return valor;
 }

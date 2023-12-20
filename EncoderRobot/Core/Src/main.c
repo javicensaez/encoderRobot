@@ -74,6 +74,9 @@ float rpmDchDel;
 float rpmDchTras;
 
 struct pid_motor PIDmotorIzqTras;
+struct pid_motor PIDmotorIzqDel;
+struct pid_motor PIDmotorDchTras;
+struct pid_motor PIDmotorDchDel;
 
 uint8_t RxData[8];
 uint8_t TxData[8];
@@ -144,6 +147,9 @@ int main(void)
 	setCanFilter();
 	initMotores();
 	PIDmotorIzqTras.velDeseada=50;
+	PIDmotorIzqDel.velDeseada=100;
+	PIDmotorDchTras.velDeseada=125;
+	PIDmotorDchDel.velDeseada=75;
 	//motorIzqDel(100);
 	//motorIzqTras(100);
 	//motorDchDel(100);

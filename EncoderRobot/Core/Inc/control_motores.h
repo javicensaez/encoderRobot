@@ -26,8 +26,14 @@ struct pid_motor {
 };
 
 extern float rpmIzqTras;
+extern float rpmIzqDel;
+extern float rpmDchDel;
+extern float rpmDchTras;
 
 extern struct pid_motor PIDmotorIzqTras;
+extern struct pid_motor PIDmotorIzqDel;
+extern struct pid_motor PIDmotorDchTras;
+extern struct pid_motor PIDmotorDchDel;
 
 void motorIzqDel(int vel);
 void motorIzqTras(int vel);
