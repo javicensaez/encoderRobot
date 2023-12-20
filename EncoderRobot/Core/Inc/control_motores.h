@@ -30,6 +30,11 @@ extern float rpmIzqDel;
 extern float rpmDchDel;
 extern float rpmDchTras;
 
+extern float filtRpmIzqTras;
+extern float  filtRpmIzqDel;
+extern float  filtRpmDchDel;
+extern float  filtRpmDchTras;
+
 extern struct pid_motor PIDmotorIzqTras;
 extern struct pid_motor PIDmotorIzqDel;
 extern struct pid_motor PIDmotorDchTras;

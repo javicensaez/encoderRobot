@@ -73,6 +73,11 @@ float rpmIzqDel;
 float rpmDchDel;
 float rpmDchTras;
 
+float filtRpmIzqTras;
+float  filtRpmIzqDel;
+float  filtRpmDchDel;
+float  filtRpmDchTras;
+
 struct pid_motor PIDmotorIzqTras;
 struct pid_motor PIDmotorIzqDel;
 struct pid_motor PIDmotorDchTras;
@@ -713,6 +718,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if (htim == &htim6) {
 		contador++;
 		contar();
+		filtarRpm();
 		updateMotor();
 		if (contador == 1000) {
 			contador = 0;

@@ -33,5 +33,10 @@ extern float rpmIzqDel;
 extern float rpmDchDel;
 extern float rpmDchTras;
 
+extern float filtRpmIzqTras;
+extern float  filtRpmIzqDel;
+extern float  filtRpmDchDel;
+extern float  filtRpmDchTras;
+
 void contar();
 void calculaRPM();

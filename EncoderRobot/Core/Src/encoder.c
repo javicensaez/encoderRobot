@@ -68,20 +68,25 @@ void contar() {
 }
 
 void calculaRPM() {
-	contIzqTrasMedia = 0.9 * contIzqTrasTemp + 0.1 * contIzqTrasMedia;
+	rpmIzqTras = contIzqTrasTemp / 90 * 5 * 60;
 	contIzqTrasTemp = 0;
-	rpmIzqTras = contIzqTrasMedia / 90 * 5 * 60;
 
-	contIzqDelMedia = 0.9 * contIzqDelTemp + 0.1 * contIzqDelMedia;
+
+	rpmIzqDel = contIzqDelTemp / 90 * 5 * 60;
 	contIzqDelTemp = 0;
-	rpmIzqDel = contIzqDelMedia / 90 * 5 * 60;
 
-	contDchDelMedia = 0.9 * contDchDelTemp + 0.1 * contDchDelMedia;
+
+	rpmDchDel = contDchDelTemp / 90 * 5 * 60;
 	contDchDelTemp = 0;
-	rpmDchDel = contDchDelMedia / 90 * 5 * 60;
 
-	contDchTrasMedia = 0.9 * contDchTrasTemp + 0.1 * contDchTrasMedia;
+	rpmDchTras = contDchTrasTemp / 90 * 5 * 60;
 	contDchTrasTemp = 0;
-	rpmDchTras = contDchTrasMedia / 90 * 5 * 60;
 
+}
+
+void filtarRpm(){
+	filtRpmIzqTras=0.7*filtRpmIzqTras+0.3*rpmIzqTras;
+	filtRpmIzqDel=0.7*filtRpmIzqDel+0.3*rpmIzqDel;
+	filtRpmDchDel=0.7*filtRpmDchDel+0.3*rpmDchDel;
+	filtRpmDchTras=0.7*rpmDchTras+0.3*rpmDchTras;
 }

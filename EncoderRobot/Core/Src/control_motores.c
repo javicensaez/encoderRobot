@@ -80,13 +80,13 @@ void calculaPID() {
 }
 
 void updateMotor() {
-	float motor_pwm = pid_controller_run(&PIDmotorIzqTras, rpmIzqTras);
+	float motor_pwm = pid_controller_run(&PIDmotorIzqTras, filtRpmIzqTras);
 	motorIzqTras(motor_pwm);
-	motor_pwm = pid_controller_run(&PIDmotorIzqDel, rpmIzqDel);
+	motor_pwm = pid_controller_run(&PIDmotorIzqDel, filtRpmIzqDel);
 	motorIzqDel(motor_pwm);
-	motor_pwm = pid_controller_run(&PIDmotorDchTras, rpmDchTras);
+	motor_pwm = pid_controller_run(&PIDmotorDchTras, filtRpmDchTras);
 	motorDchTras(motor_pwm);
-	motor_pwm = pid_controller_run(&PIDmotorDchDel, rpmDchDel);
+	motor_pwm = pid_controller_run(&PIDmotorDchDel, filtRpmDchDel);
 	motorDchDel(motor_pwm);
 
 }
