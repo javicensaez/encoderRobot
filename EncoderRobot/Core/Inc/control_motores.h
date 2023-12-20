@@ -14,17 +14,28 @@
 
 #include "stm32f3xx_hal.h"
 
-void motorIzqDel(int vel);
-void motorIzqTras(int vel);
-void motorDchDel(int vel);
-void motorDchTras(int vel);
-void initMotores();
-
-struct Motor {
+struct pid_motor {
   float kp;
   float ki;
   float kd;
   float velDeseada;
   float velMotor;
-  float velMotorPasada;
+  float errorPasado;
+  float sum;
+  float delta;
 };
+
+extern float rpmIzqTras;
+
+extern struct pid_motor PIDmotorIzqTras;
+
+void motorIzqDel(int vel);
+void motorIzqTras(int vel);
+void motorDchDel(int vel);
+void motorDchTras(int vel);
+void initMotores();
+void pid_controller_init(struct pid_motor *pid, float delta, float kp, float ki, float kd);
+void calculaPID();
+
+void updateMotor();
+float pid_controller_run(struct pid_motor *pid, float velMotor);

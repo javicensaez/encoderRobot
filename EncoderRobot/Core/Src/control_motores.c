@@ -14,7 +14,7 @@ extern TIM_HandleTypeDef htim6;
 extern TIM_HandleTypeDef htim16;
 extern TIM_HandleTypeDef htim17;
 
-struct Motor PIDmotorIzqTras;
+
 
 
 void motorDchDel (int vel) {
@@ -71,9 +71,7 @@ void initMotores() {
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2); //IN7
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); //IN8
 
-	PIDmotorIzqTras.kp=10;
-	PIDmotorIzqTras.ki=0;
-	PIDmotorIzqTras.kd=0;
+	pid_controller_init(&PIDmotorIzqTras,0.0002,0.1,2,0.1);
 
 }
 
@@ -82,5 +80,32 @@ void calculaPID(){
 }
 
 void updateMotor(){
+	float motor_pwm=pid_controller_run(&PIDmotorIzqTras,  rpmIzqTras);
+	motorIzqTras(motor_pwm);
 
+}
+
+void pid_controller_init(struct pid_motor *pid, float delta, float kp, float ki, float kd) {
+  pid->delta = delta;
+  pid->kp = kp;
+  pid->ki = ki;
+  pid->kd = kd;
+  pid->sum = 0;
+  pid->errorPasado = 0;
+}
+
+float pid_controller_run(struct pid_motor *pid, float velMotor) {
+  float error=pid->velDeseada-velMotor;
+  float p = pid->kp *error ;
+  pid->sum += error;
+  float i = pid->ki * pid->delta * pid->sum;
+  float d = pid->kd * (error - pid->errorPasado) / pid->delta;
+  pid->errorPasado = error;
+  float valor=p + i + d;
+  if (valor>100)
+  {valor=100;}
+  if (valor<-100){
+	  valor=-100;
+  }
+  return valor;
 }

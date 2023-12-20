@@ -73,6 +73,8 @@ float rpmIzqDel;
 float rpmDchDel;
 float rpmDchTras;
 
+struct pid_motor PIDmotorIzqTras;
+
 uint8_t RxData[8];
 uint8_t TxData[8];
 CAN_RxHeaderTypeDef RxHeader;
@@ -141,10 +143,11 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim6);
 	setCanFilter();
 	initMotores();
-	motorIzqDel(100);
-	motorIzqTras(100);
-	motorDchDel(100);
-	motorDchTras(100);
+	PIDmotorIzqTras.velDeseada=50;
+	//motorIzqDel(100);
+	//motorIzqTras(100);
+	//motorDchDel(100);
+	//motorDchTras(100);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -155,6 +158,7 @@ int main(void)
 
 			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
 			calculaRPM();
+
 
 			char buffer[16];
 			//HAL_UART_Transmit(&huart2, (uint8_t*) buffer,
@@ -703,6 +707,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if (htim == &htim6) {
 		contador++;
 		contar();
+		updateMotor();
 		if (contador == 1000) {
 			contador = 0;
 			bandera = 1;
