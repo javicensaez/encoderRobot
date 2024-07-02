@@ -775,9 +775,9 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
 		uint32_t identificador = RxHeader.ExtId;
 		if (identificador == 0x0CF11E05) {
 			uint16_t pwm_f_l = ((uint16_t) RxData[6]) * 256 + RxData[7];
-			uint16_t pwm_f_r = ((uint16_t) RxData[5]) * 256 + RxData[4];
-			uint16_t pwm_b_l = ((uint16_t) RxData[3]) * 256 + RxData[2];
-			uint16_t pwm_b_r = ((uint16_t) RxData[1]) * 256 + RxData[0];
+			uint16_t pwm_f_r = ((uint16_t) RxData[4]) * 256 + RxData[5];
+			uint16_t pwm_b_l = ((uint16_t) RxData[2]) * 256 + RxData[3];
+			uint16_t pwm_b_r = ((uint16_t) RxData[0]) * 256 + RxData[1];
 			PIDmotorIzqTras.velDeseada = pwm_b_l / 256.0;
 			PIDmotorIzqDel.velDeseada = pwm_f_l / 256.0;
 			PIDmotorDchTras.velDeseada = pwm_b_r / 256.0;
