@@ -254,12 +254,12 @@ static void MX_CAN_Init(void)
   hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
   hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
   hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
-  hcan.Init.TimeTriggeredMode = DISABLE;
+  hcan.Init.TimeTriggeredMode = ENABLE;
   hcan.Init.AutoBusOff = ENABLE;
-  hcan.Init.AutoWakeUp = DISABLE;
-  hcan.Init.AutoRetransmission = ENABLE;
-  hcan.Init.ReceiveFifoLocked = DISABLE;
-  hcan.Init.TransmitFifoPriority = DISABLE;
+  hcan.Init.AutoWakeUp = ENABLE;
+  hcan.Init.AutoRetransmission = DISABLE;
+  hcan.Init.ReceiveFifoLocked = ENABLE;
+  hcan.Init.TransmitFifoPriority = ENABLE;
   if (HAL_CAN_Init(&hcan) != HAL_OK)
   {
     Error_Handler();
@@ -754,7 +754,7 @@ void setCanFilter() {
 	}
 
 	/*##-4- Activate CAN RX notification #######################################*/
-	if (HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING)
+	if (HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING |CAN_IT_TX_MAILBOX_EMPTY)
 			!= HAL_OK) {
 		/* Notification Error */
 		//Error_Handler();
@@ -767,7 +767,7 @@ void setCanFilter() {
 
 }
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
-	if (HAL_CAN_GetRxMessage((CAN_HandleTypeDef*)&hcan, CAN_RX_FIFO0, &RxHeader, RxData)
+	if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, RxData)
 			!= HAL_OK) {
 		/* Reception Error */
 		//Error_Handler();
