@@ -151,10 +151,10 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim6);
 	setCanFilter();
 	initMotores();
-	PIDmotorIzqTras.velDeseada = 50;
-	PIDmotorIzqDel.velDeseada = 100;
-	PIDmotorDchTras.velDeseada = 125;
-	PIDmotorDchDel.velDeseada = 75;
+	PIDmotorIzqTras.velDeseada = 0; //MAX 120
+	PIDmotorIzqDel.velDeseada = 0;
+	PIDmotorDchTras.velDeseada = 0;
+	PIDmotorDchDel.velDeseada = 0;
 	//motorIzqDel(100);
 	//motorIzqTras(100);
 	//motorDchDel(100);
