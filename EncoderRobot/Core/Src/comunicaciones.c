@@ -8,7 +8,7 @@
 #include "comunicaciones.h"
 
 void enviarDatosCan(){
-	TxHeader.ExtId = 0x0CF11E05; //ID extendida 1
+	TxHeader.ExtId = 0x0CF11E06; //ID extendida 1
 			TxHeader.RTR = CAN_RTR_DATA;
 			TxHeader.IDE = CAN_ID_EXT;
 			TxHeader.DLC = 8;
