@@ -774,14 +774,14 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
 	} else {
 		uint32_t identificador = RxHeader.ExtId;
 		if (identificador == 0x0CF11E05) {
-			uint16_t pwm_f_l = ((uint16_t) RxData[6]) * 256 + RxData[7];
-			uint16_t pwm_f_r = ((uint16_t) RxData[4]) * 256 + RxData[5];
-			uint16_t pwm_b_l = ((uint16_t) RxData[2]) * 256 + RxData[3];
-			uint16_t pwm_b_r = ((uint16_t) RxData[0]) * 256 + RxData[1];
-			PIDmotorIzqTras.velDeseada = pwm_b_l / 256.0;
-			PIDmotorIzqDel.velDeseada = pwm_f_l / 256.0;
-			PIDmotorDchTras.velDeseada = pwm_b_r / 256.0;
-			PIDmotorDchDel.velDeseada = pwm_f_r / 256.0;
+			int16_t pwm_f_l = ((int16_t) RxData[6]) * 256 + RxData[7];
+			int16_t pwm_f_r = ((int16_t) RxData[4]) * 256 + RxData[5];
+			int16_t pwm_b_l = ((int16_t) RxData[2]) * 256 + RxData[3];
+			int16_t pwm_b_r = ((int16_t) RxData[0]) * 256 + RxData[1];
+			PIDmotorIzqTras.velDeseada = pwm_b_l / 32.0;
+			PIDmotorIzqDel.velDeseada = pwm_f_l / 32.0;
+			PIDmotorDchTras.velDeseada = pwm_b_r / 32.0;
+			PIDmotorDchDel.velDeseada = pwm_f_r / 32.0;
 		}
 	}
 }
