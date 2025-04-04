@@ -117,11 +117,22 @@ float pid_controller_run(struct pid_motor *pid, float velMotor) {
 	float d = pid->kd * (error - pid->errorPasado) / pid->delta;
 	pid->errorPasado = error;
 	float valor = p + i + d;
+
+	//para mejorar el arranque del motor
+	if(pid->velDeseada>0){
+		valor+=15;
+	}else if(pid->velDeseada<0){
+		valor-=15;
+	}
+
 	if (valor > 100) {
-		valor = 100;
+		valor = 99;
 	}
 	if (valor < -100) {
-		valor = -100;
+		valor = -99;
 	}
+
+
+
 	return valor;
 }
